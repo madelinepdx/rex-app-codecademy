@@ -1,60 +1,72 @@
 /* global google */
 import React, { useEffect, useRef } from "react";
-import { useLoadScript } from "@react-google-maps/api";
+import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 
 const containerStyle = {
   width: "100%",
   height: "400px",
 };
 
-const Map = ({ location, topPlace }) => {
+const libraries = ["marker"];
+
+const Map = ({ currentLocation, topPlaceLocation, clearMarkers }) => {
   const mapRef = useRef(null);
+  const markersRef = useRef([]); // Maintain reference to markers
+
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
-    libraries: ["marker"], // Required for AdvancedMarkerElement
+    libraries,
   });
 
   useEffect(() => {
-    const loadMap = async () => {
-      if (isLoaded && location) {
-        const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+    if (isLoaded && mapRef.current && window.google) {
+      const map = mapRef.current;
 
-        const map = new google.maps.Map(mapRef.current, {
-          center: location,
-          zoom: 14,
-          mapId: "DEMO_MAP_ID", // Replace with your actual map ID
-        });
+      // Clear existing markers
+      markersRef.current.forEach((marker) => marker.setMap(null));
+      markersRef.current = [];
 
-        const marker = new AdvancedMarkerElement({
+      // User's current location marker
+      if (currentLocation) {
+        const userMarker = new google.maps.Marker({
           map,
-          position: location,
-          title: topPlace?.name || "Selected Place",
+          position: currentLocation,
+          title: "Your Location",
+          icon: {
+            url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+          },
         });
-
-        const infoWindow = new google.maps.InfoWindow({
-          content: `
-            <div>
-              <h3>${topPlace?.name || "No Title"}</h3>
-              <p>Location: ${location.lat}, ${location.lng}</p>
-            </div>
-          `,
-        });
-
-        marker.addEventListener("click", () => {
-          infoWindow.open({
-            anchor: marker,
-            map,
-          });
-        });
+        markersRef.current.push(userMarker);
       }
-    };
 
-    loadMap();
-  }, [isLoaded, location, topPlace]);
+      // Top place marker
+      if (topPlaceLocation) {
+        const topPlaceMarker = new google.maps.Marker({
+          map,
+          position: topPlaceLocation,
+          title: "Top Place",
+        });
+        markersRef.current.push(topPlaceMarker);
+      }
 
-  if (!isLoaded) return <div>Loading...</div>;
+      // Expose a method to clear markers externally
+      clearMarkers.current = () => {
+        markersRef.current.forEach((marker) => marker.setMap(null));
+        markersRef.current = [];
+      };
+    }
+  }, [isLoaded, currentLocation, topPlaceLocation, clearMarkers]);
 
-  return <div ref={mapRef} style={containerStyle}></div>;
+  if (!isLoaded) return <div>Loading map...</div>;
+
+  return (
+    <GoogleMap
+      mapContainerStyle={containerStyle}
+      center={currentLocation || { lat: 0, lng: 0 }}
+      zoom={currentLocation ? 14 : 2}
+      onLoad={(map) => (mapRef.current = map)}
+    />
+  );
 };
 
 export default Map;

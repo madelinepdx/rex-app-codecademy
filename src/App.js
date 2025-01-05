@@ -1,34 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Map from "./Map";
 
 function App() {
   const [topPlace, setTopPlace] = useState(null);
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const clearMarkersRef = useRef(null);
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setCurrentLocation({ lat: latitude, lng: longitude });
+        },
+        (error) => {
+          console.error("Error fetching geolocation:", error);
+          // Default to Portland, OR if geolocation fails
+          setCurrentLocation({ lat: 45.5152, lng: -122.6784 });
+        }
+      );
+    }
+  }, []);
 
   const fetchNearbyPlaces = async (type) => {
-    console.log("Fetching nearby places...");
-    const location = "40.730610,-73.935242"; // Example: New York City
-    const radius = 1500;
-  
-    const url = `http://localhost:5001/api/nearbysearch?location=${location}&radius=${radius}&type=${type}`;
-  
+    if (!currentLocation) return;
+
+    if (clearMarkersRef.current) {
+      clearMarkersRef.current();
+    }
+
+    const { lat, lng } = currentLocation;
+    const url = `http://localhost:5001/api/nearbysearch?location=${lat},${lng}&radius=1500&type=${type}`;
+
     try {
       const response = await fetch(url);
       const data = await response.json();
-  
-      console.log("Top Place Data:", data.results[0] || "No places found");
-  
+
       if (data.results && data.results.length > 0) {
         const place = data.results[0];
-        const center = {
-          lat: place.geometry.location.lat,
-          lng: place.geometry.location.lng,
-        };
-  
         setTopPlace({
           name: place.name,
           vicinity: place.vicinity,
-          rating: place.rating,
-          center,
+          location: {
+            lat: place.geometry.location.lat,
+            lng: place.geometry.location.lng,
+          },
         });
       } else {
         setTopPlace(null);
@@ -36,7 +52,7 @@ function App() {
     } catch (error) {
       console.error("Error fetching places:", error);
     }
-  };  
+  };
 
   return (
     <div className="App">
@@ -53,8 +69,13 @@ function App() {
         <div>
           {topPlace ? (
             <>
-              <h2>Right here right now: {topPlace.name}</h2>
-              <Map location={topPlace?.center} title={topPlace?.name} />
+              <h2>How about: {topPlace.name}</h2>
+              <p>{topPlace.vicinity}</p>
+              <Map
+                currentLocation={currentLocation}
+                topPlaceLocation={topPlace.location}
+                clearMarkers={clearMarkersRef}
+              />
             </>
           ) : (
             <p>No results found. Try another option!</p>
