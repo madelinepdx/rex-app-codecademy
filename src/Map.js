@@ -33,20 +33,32 @@ const Map = ({ currentLocation, topPlaceLocation, clearMarkers }) => {
           position: currentLocation,
           title: "Your Location",
           icon: {
-            url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+            path: google.maps.SymbolPath.CIRCLE, // Use a simple circle instead
+            fillColor: 'blue',
+            fillOpacity: 1,
+            strokeColor: 'red',
+            strokeWeight: 2,
+            scale: 8, // Adjust size if needed
           },
         });
         markersRef.current.push(userMarker);
       }
 
-      // Top place marker (Red marker for "See/Do" places)
+      console.log("Top Place Location:", topPlaceLocation);
+
+      // Top place marker (red icon for "See/Do")
       if (topPlaceLocation) {
         const topPlaceMarker = new google.maps.Marker({
           map,
           position: topPlaceLocation,
           title: "Top Place",
           icon: {
-            url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png", // Red marker for "See/Do"
+            path: google.maps.SymbolPath.CIRCLE, // Use a simple circle instead
+            fillColor: 'red',
+            fillOpacity: 1,
+            strokeColor: 'red',
+            strokeWeight: 2,
+            scale: 8, // Adjust size if needed
           },
         });
         markersRef.current.push(topPlaceMarker);
