@@ -39,12 +39,15 @@ const Map = ({ currentLocation, topPlaceLocation, clearMarkers }) => {
         markersRef.current.push(userMarker);
       }
 
-      // Top place marker
+      // Top place marker (Red marker for "See/Do" places)
       if (topPlaceLocation) {
         const topPlaceMarker = new google.maps.Marker({
           map,
           position: topPlaceLocation,
           title: "Top Place",
+          icon: {
+            url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png", // Red marker for "See/Do"
+          },
         });
         markersRef.current.push(topPlaceMarker);
       }

@@ -36,6 +36,9 @@ function App() {
       const response = await fetch(url);
       const data = await response.json();
 
+      console.log('Fetched data for See/Do:', data); // Log the fetched data
+
+
       if (data.results && data.results.length > 0) {
         const place = data.results[0];
         setTopPlace({
@@ -63,13 +66,11 @@ function App() {
         <p>What do you want?</p>
         <button onClick={() => fetchNearbyPlaces("restaurant")}>Eat</button>
         <button onClick={() => fetchNearbyPlaces("bar")}>Drink</button>
-        <button onClick={() => fetchNearbyPlaces("park")}>See</button>
-        <button onClick={() => fetchNearbyPlaces("activity")}>Do</button>
-
+        <button onClick={() => fetchNearbyPlaces("park")}>See/Do</button>
         <div>
           {topPlace ? (
             <>
-              <h2>How about: {topPlace.name}</h2>
+              <h2>Right here right now: {topPlace.name}</h2>
               <p>{topPlace.vicinity}</p>
               <Map
                 currentLocation={currentLocation}
@@ -86,4 +87,6 @@ function App() {
   );
 }
 
+
 export default App;
+ 
