@@ -1,28 +1,113 @@
-.App {
-  text-align: center;
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
 }
 
-header {
-  background-color: #282c34;
-  padding: 20px;
-  color: white;
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px 10px;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
 }
 
-main {
-  margin: 20px;
+nav .logo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
 }
 
-button {
-  margin: 5px;
+nav img {
+  width: 30px;
+  height: 30px;
+  margin-right: 50px;
+  margin-left: -2px;
+}
+
+nav .logo span {
+  font-size: 0.8rem;
+  color: #000000;
+  position: absolute;
+  top: 1px;
+  left: 20px;
+  transform: rotate(-15deg);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 50px auto;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap; /* Prevents wrapping */
+  gap: 20px; /* Adds spacing between buttons and icon */
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.buttons button {
+  background-color: #ddd;
+  border: none;
+  border-radius: 20px;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 1rem;
   cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.buttons button:hover {
+  background-color: #bbb;
+}
+
+.buttons button.active {
+  background-color: #8fb339;
+  color: #fff;
+}
+
+.rex {
+  max-width: 150px; /* Adjust size of the dinosaur */
+  flex-shrink: 0; /* Prevents the dinosaur from shrinking */
+}
+
+.footer {
+  display: none; /* Removes footer as you mentioned */
 }
 
 .map-container {
-  width: 100%;
-  height: 400px;
-  margin: 20px 0;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .content {
+    flex-direction: row; /* Ensure it stays side-by-side */
+    gap: 15px; /* Adjust gap for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    flex-direction: row; /* Ensure it stays side-by-side on very small screens */
+    gap: 10px;
+  }
 }
