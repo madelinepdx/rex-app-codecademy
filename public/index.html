@@ -4,14 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="
-  default-src 'self';
-  script-src 'self' https://maps.googleapis.com 'unsafe-eval';
-  connect-src 'self' http://localhost:5001 https://maps.googleapis.com;
-  img-src 'self' data: https://maps.gstatic.com https://maps.googleapis.com http://maps.google.com;
-  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-  font-src 'self' https://fonts.gstatic.com;">
-  <title>Rex App</title>
-</head>
+  default-src 'self'; 
+  script-src 'self' https://maps.googleapis.com 'unsafe-eval'; 
+  connect-src 'self' http://localhost:5001 https://maps.googleapis.com https://www.gstatic.com; 
+  img-src 'self' data: https://maps.gstatic.com https://maps.googleapis.com; 
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
+  font-src 'self' https://fonts.gstatic.com; 
+  worker-src 'self' blob:;">
 <body>
   <div id="root"></div>
 </body>

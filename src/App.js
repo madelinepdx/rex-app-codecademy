@@ -36,18 +36,16 @@ function App() {
       const response = await fetch(url);
       const data = await response.json();
 
-      console.log('Fetched data for See/Do:', data); // Log the fetched data
-
+      console.log("Fetched data for See/Do:", data);
 
       if (data.results && data.results.length > 0) {
         const place = data.results[0];
         setTopPlace({
           name: place.name,
           vicinity: place.vicinity,
-          location: {
-            lat: place.geometry.location.lat,
-            lng: place.geometry.location.lng,
-          },
+          lat: place.geometry.location.lat,
+          lng: place.geometry.location.lng,
+          place_id: place.place_id, // Include place_id dynamically
         });
       } else {
         setTopPlace(null);
@@ -70,11 +68,11 @@ function App() {
         <div>
           {topPlace ? (
             <>
-              <h2>Right here right now: {topPlace.name}</h2>
+              <h2>How about: {topPlace.name}</h2>
               <p>{topPlace.vicinity}</p>
               <Map
                 currentLocation={currentLocation}
-                topPlaceLocation={topPlace.location}
+                topPlaceLocation={topPlace}
                 clearMarkers={clearMarkersRef}
               />
             </>
@@ -87,6 +85,4 @@ function App() {
   );
 }
 
-
 export default App;
- 
