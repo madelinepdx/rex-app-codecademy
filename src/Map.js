@@ -86,25 +86,27 @@ const Map = ({ currentLocation, topPlaceLocation, clearMarkers }) => {
       // Add top place marker (red dot)
       if (topPlaceLocation && topPlaceLocation.lat && topPlaceLocation.lng && isMounted) {
         const markerContent = document.createElement("div");
-        markerContent.style.width = "20px";
-        markerContent.style.height = "20px";
-        markerContent.style.backgroundColor = "red";
-        markerContent.style.borderRadius = "50%";
-
+        markerContent.style.width = "40px";
+        markerContent.style.height = "40px";
+        markerContent.style.backgroundImage = "url('/images/noun-dinosaur.png')";
+        markerContent.style.backgroundSize = "contain";
+        markerContent.style.backgroundRepeat = "no-repeat";
+        markerContent.style.backgroundPosition = "center";
+      
         const topPlaceMarker = new window.google.maps.marker.AdvancedMarkerElement({
           map,
           position: { lat: topPlaceLocation.lat, lng: topPlaceLocation.lng },
           title: topPlaceLocation.name || "Top Place",
           content: markerContent,
         });
-
+      
         topPlaceMarker.addListener("click", () => {
           fetchPlaceDetails(topPlaceLocation.place_id, map, topPlaceMarker, infoWindowInstance);
         });
-
+      
         markersRef.current.push(topPlaceMarker);
       }
-
+      
       // Cleanup markers
       clearMarkers.current = () => {
         markersRef.current.forEach((marker) => marker.setMap(null));
