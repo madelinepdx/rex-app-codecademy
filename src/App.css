@@ -49,7 +49,7 @@ nav .logo span {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 50px auto;
+  margin: 20px auto;
 }
 
 h1 {
@@ -58,11 +58,14 @@ h1 {
   margin-bottom: 20px;
 }
 
+/* Ensure T-Rex stays next to buttons */
 .content {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 20px; /* Space between buttons and T-Rex */
+  margin-top: 10px;
+  flex-wrap: nowrap; /* Prevent wrapping of buttons and T-Rex */
 }
 
 /* Buttons */
@@ -89,13 +92,24 @@ h1 {
   transition: background-color 0.3s, transform 0.2s;
 }
 
-.buttons button:hover {
-  background-color: #bbb;
-  transform: scale(1.05); /* Add a subtle hover effect */
+/* Hover Styles for Buttons */
+.buttons button.eat:hover {
+  background-color: #f48fb1; /* Lighter pink for hover */
+  color: white;
 }
 
-/* Active Button Colors */
-/* Active Button Colors */
+.buttons button.drink:hover {
+  background-color: #b39ddb; /* Lighter violet for hover */
+  color: white;
+}
+
+.buttons button.explore:hover {
+  background-color: #ffab91; /* Lighter coral orange for hover */
+  color: white;
+}
+
+
+/* Active Buttons */
 .buttons button.active.eat {
   background-color: #f06292; /* Vibrant pink-red for eat */
   color: white;
@@ -111,32 +125,42 @@ h1 {
   color: white;
 }
 
-/* T-Rex Marker with Colored Glow */
-.trex-marker {
-  position: relative;
-  display: inline-block;
-  width: 40px;
-  height: 40px;
+/* Arrows */
+.arrows {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* Space between arrows */
+  margin-top: 15px;
+}
+
+.arrows .arrow-button {
+  background-color: #ddd;
+  border: none;
   border-radius: 50%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Default shadow */
+  width: 40px; /* Smaller size */
+  height: 40px;
+  font-size: 1.2rem;
+  color: white; /* Default text color */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.trex-marker.eat {
-  background-color: #f06292; /* Vibrant pink-red for eat */
-  box-shadow: 0 0 15px #f06292;
+/* Active Arrow Colors */
+.arrows .arrow-button.eat {
+  color: #f06292; /* Vibrant pink-red for eat */
 }
 
-.trex-marker.drink {
-  background-color: #9370db; /* Muted violet for drink */
-  box-shadow: 0 0 15px #9370db;
+.arrows .arrow-button.drink {
+  color: #9370db; /* Muted violet for drink */
 }
 
-.trex-marker.explore {
-  background-color: #ff7f50; /* Coral orange for explore */
-  box-shadow: 0 0 15px #ff7f50;
+.arrows .arrow-button.explore {
+  color: #ff7f50; /* Coral orange for explore */
+}
+
+.arrows .arrow-button:hover {
+  transform: scale(1.1);
 }
 
 /* T-Rex Icon */
@@ -159,43 +183,32 @@ h1 {
   width: 100%;
   height: 400px;
   margin-top: 20px;
+  padding: 0; /* Ensure no extra padding */
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
   background-color: #f0f0f0;
 }
 
-/* T-Rex Marker with Colored Glow */
-.trex-marker {
-  position: relative;
-  display: inline-block;
-  width: 40px; /* Marker size */
-  height: 40px;
-  background-color: transparent;
-  border-radius: 50%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Default shadow */
+.gm-style-iw {
+  padding: 8px !important; /* Reduce default padding */
+  margin: 0 !important;    
+  width: auto !important;  
+  line-height: 1 !important; 
+  overflow: hidden !important; /* Prevent overflow issues */
 }
 
-.trex-marker.eat {
-  background-color: #e57373; /* Subdued pink-red for eat */
-  box-shadow: 0 0 15px #e57373;
-}
-
-.trex-marker.drink {
-  background-color: #9370db; /* Muted violet for drink */
-  box-shadow: 0 0 15px #9370db;
-}
-
-.trex-marker.explore {
-  background-color: #ff7f50; /* Coral orange for explore */
-  box-shadow: 0 0 15px #ff7f50;
+/* Remove padding and margin from wrapping divs */
+.gm-style-iw > div,
+.gm-style-iw > div > div {
+  padding: 0 !important;
+  margin-top: -10px !important;
+  margin-bottom: 0;
+  margin-left: 2px;
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 240px) {
   .content {
     flex-direction: column;
     align-items: center;
@@ -207,7 +220,7 @@ h1 {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 200px) {
   .content {
     flex-direction: column;
     align-items: center;
@@ -218,4 +231,3 @@ h1 {
     height: 250px;
   }
 }
-
