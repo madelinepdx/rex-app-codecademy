@@ -5,12 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="
   default-src 'self'; 
-  script-src 'self' https://maps.googleapis.com 'unsafe-eval'; 
-  connect-src 'self' http://localhost:5001 https://maps.googleapis.com https://www.gstatic.com; 
-  img-src 'self' data: https://maps.gstatic.com https://maps.googleapis.com; 
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googleapis.com https://*.gstatic.com; 
+  img-src 'self' data: https://*.googleapis.com https://*.gstatic.com *.google.com *.googleusercontent.com http://localhost:3000; 
+  connect-src 'self' http://localhost:5001 https://*.googleapis.com https://*.gstatic.com https://*.google.com data: blob:;
+  font-src https://fonts.gstatic.com;
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
-  font-src 'self' https://fonts.gstatic.com; 
-  worker-src 'self' blob:;">
+  worker-src blob:;
+  object-src 'none';
+">
+  </head>
 <body>
   <div id="root"></div>
 </body>

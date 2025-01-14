@@ -6,7 +6,7 @@ const containerStyle = {
   height: "400px",
 };
 
-const libraries = ["places", "marker"]; // Include 'marker' library for AdvancedMarkerElement
+const libraries = ["places", "marker"];
 
 const Map = ({ currentLocation, topPlaceLocation, clearMarkers }) => {
   const mapRef = useRef(null);
@@ -15,19 +15,17 @@ const Map = ({ currentLocation, topPlaceLocation, clearMarkers }) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
     libraries,
-    version: "weekly", // Use the latest version
+    version: "weekly",
   });
 
-  // Helper function to fetch address
   const fetchAddress = async (lat, lng) => {
     const geocoder = new window.google.maps.Geocoder();
-
     return new Promise((resolve, reject) => {
       geocoder.geocode({ location: { lat, lng } }, (results, status) => {
         if (status === "OK" && results[0]) {
           resolve(results[0].formatted_address);
         } else {
-          resolve(null); // Resolve with null if address isn't available
+          resolve("Address not available");
         }
       });
     });
@@ -53,60 +51,65 @@ const Map = ({ currentLocation, topPlaceLocation, clearMarkers }) => {
 
       // Add geolocation marker (blue dot)
       if (currentLocation && isMounted) {
-        const markerContent = document.createElement("div");
-        markerContent.style.width = "20px";
-        markerContent.style.height = "20px";
-        markerContent.style.backgroundColor = "blue";
-        markerContent.style.borderRadius = "50%";
-        markerContent.style.boxShadow = "0 0 8px rgba(0, 0, 255, 0.6)";
-
         const geolocationMarker = new window.google.maps.marker.AdvancedMarkerElement({
           map,
           position: currentLocation,
           title: "You are here",
-          content: markerContent,
+          content: createCustomMarker("blue"),
         });
 
         geolocationMarker.addListener("click", async () => {
           const address = await fetchAddress(currentLocation.lat, currentLocation.lng);
-
           infoWindowInstance.setContent(`
             <div>
               <h3>You are here</h3>
-              ${address ? `<p>${address}</p>` : ""}
+              <p>${address}</p>
             </div>
           `);
-
           infoWindowInstance.open(map, geolocationMarker);
         });
 
         markersRef.current.push(geolocationMarker);
       }
 
-      // Add top place marker (red dot)
-      if (topPlaceLocation && topPlaceLocation.lat && topPlaceLocation.lng && isMounted) {
-        const markerContent = document.createElement("div");
-        markerContent.style.width = "40px";
-        markerContent.style.height = "40px";
-        markerContent.style.backgroundImage = "url('/images/noun-dinosaur.png')";
-        markerContent.style.backgroundSize = "contain";
-        markerContent.style.backgroundRepeat = "no-repeat";
-        markerContent.style.backgroundPosition = "center";
-      
+      // Add top place marker (T-Rex with color)
+      if (topPlaceLocation && isMounted) {
         const topPlaceMarker = new window.google.maps.marker.AdvancedMarkerElement({
           map,
           position: { lat: topPlaceLocation.lat, lng: topPlaceLocation.lng },
-          title: topPlaceLocation.name || "Top Place",
-          content: markerContent,
+          title: topPlaceLocation.name,
+          content: createTyrannosaurusMarker(topPlaceLocation.type),
         });
-      
+
         topPlaceMarker.addListener("click", () => {
-          fetchPlaceDetails(topPlaceLocation.place_id, map, topPlaceMarker, infoWindowInstance);
+          const content = `
+            <div>
+              <h3>${topPlaceLocation.name}</h3>
+              <p>${topPlaceLocation.address || "No address available"}</p>
+              ${
+                topPlaceLocation.opening_hours
+                  ? `<p><strong>Opening Hours:</strong></p>
+                     <ul>
+                       ${topPlaceLocation.opening_hours
+                         .map((day) => `<li>${day}</li>`)
+                         .join("")}
+                     </ul>`
+                  : "<p>No opening hours available</p>"
+              }
+              ${
+                topPlaceLocation.place_id
+                  ? `<p><a href="https://www.google.com/maps/place/?q=place_id:${topPlaceLocation.place_id}" target="_blank" rel="noopener noreferrer">Open in Google Maps</a></p>`
+                  : ""
+              }
+            </div>
+          `;
+          infoWindowInstance.setContent(content);
+          infoWindowInstance.open(map, topPlaceMarker);
         });
-      
+
         markersRef.current.push(topPlaceMarker);
       }
-      
+
       // Cleanup markers
       clearMarkers.current = () => {
         markersRef.current.forEach((marker) => marker.setMap(null));
@@ -120,51 +123,30 @@ const Map = ({ currentLocation, topPlaceLocation, clearMarkers }) => {
     }
   }, [isLoaded, currentLocation, topPlaceLocation, clearMarkers]);
 
-  const fetchPlaceDetails = (placeId, map, marker, infoWindow) => {
-    if (!placeId) {
-      infoWindow.setContent("<p>No place details available</p>");
-      infoWindow.open(map, marker);
-      return;
+  // Helper function to create custom markers
+  const createCustomMarker = (type) => {
+    const markerContent = document.createElement("div");
+    markerContent.style.width = "20px";
+    markerContent.style.height = "20px";
+    markerContent.style.borderRadius = "50%";
+
+    if (type === "blue") {
+      markerContent.style.backgroundColor = "blue";
+      markerContent.style.boxShadow = "0 0 6px rgba(0, 0, 255, 0.5)";
     }
 
-    const service = new window.google.maps.places.PlacesService(map);
+    return markerContent;
+  };
 
-    service.getDetails(
-      {
-        placeId,
-        fields: ["name", "formatted_address", "opening_hours", "url"], // Explicitly request 'url'
-      },
-      (place, status) => {
-        if (status === window.google.maps.places.PlacesServiceStatus.OK && place) {
-          const content = `
-            <div>
-              <h3>${place.name || "No Name Available"}</h3>
-              ${place.formatted_address ? `<p>${place.formatted_address}</p>` : ""}
-              ${
-                place.opening_hours
-                  ? `<p><strong>Opening Hours:</strong></p>
-                     <ul>
-                       ${place.opening_hours.weekday_text
-                         .map((day) => `<li>${day}</li>`)
-                         .join("")}
-                     </ul>`
-                  : ""
-              }
-              <p>
-                <a href="${place.url}" target="_blank" rel="noopener noreferrer">
-                  Open in Google Maps
-                </a>
-              </p>
-            </div>
-          `;
-          infoWindow.setContent(content);
-          infoWindow.open(map, marker);
-        } else {
-          infoWindow.setContent("<p>No place details available</p>");
-          infoWindow.open(map, marker);
-        }
-      }
-    );
+  // Helper function for T-Rex marker with color
+  const createTyrannosaurusMarker = (type) => {
+    const markerContent = document.createElement("div");
+    markerContent.classList.add("trex-marker", type); // Add type-specific class
+    markerContent.style.backgroundImage = "url('/images/noun-dinosaur.png')";
+    markerContent.style.backgroundSize = "contain";
+    markerContent.style.backgroundRepeat = "no-repeat";
+    markerContent.style.backgroundPosition = "center";
+    return markerContent;
   };
 
   if (!isLoaded) return <div>Loading map...</div>;

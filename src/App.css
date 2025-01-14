@@ -1,3 +1,4 @@
+/* General Styles */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -19,6 +20,12 @@ nav .logo {
   align-items: center;
   justify-content: flex-start;
   position: relative;
+  cursor: pointer; /* Indicate clickable icon */
+  transition: transform 0.2s ease-in-out;
+}
+
+nav .logo:hover {
+  transform: scale(1.1); /* Subtle hover effect */
 }
 
 nav img {
@@ -55,17 +62,23 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: nowrap; /* Prevents wrapping */
-  gap: 20px; /* Adds spacing between buttons and icon */
+  gap: 20px;
 }
 
+/* Buttons */
 .buttons {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: 10px;
 }
 
+/* Buttons become horizontal when map is displayed */
+.map-visible .buttons {
+  flex-direction: row;
+  justify-content: center;
+}
+
+/* Default Button Styles */
 .buttons button {
   background-color: #ddd;
   border: none;
@@ -73,41 +86,136 @@ h1 {
   padding: 10px 20px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .buttons button:hover {
   background-color: #bbb;
+  transform: scale(1.05); /* Add a subtle hover effect */
 }
 
-.buttons button.active {
-  background-color: #8fb339;
-  color: #fff;
+/* Active Button Colors */
+/* Active Button Colors */
+.buttons button.active.eat {
+  background-color: #f06292; /* Vibrant pink-red for eat */
+  color: white;
 }
 
+.buttons button.active.drink {
+  background-color: #9370db; /* Muted violet for drink */
+  color: white;
+}
+
+.buttons button.active.explore {
+  background-color: #ff7f50; /* Coral orange for explore */
+  color: white;
+}
+
+/* T-Rex Marker with Colored Glow */
+.trex-marker {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Default shadow */
+}
+
+.trex-marker.eat {
+  background-color: #f06292; /* Vibrant pink-red for eat */
+  box-shadow: 0 0 15px #f06292;
+}
+
+.trex-marker.drink {
+  background-color: #9370db; /* Muted violet for drink */
+  box-shadow: 0 0 15px #9370db;
+}
+
+.trex-marker.explore {
+  background-color: #ff7f50; /* Coral orange for explore */
+  box-shadow: 0 0 15px #ff7f50;
+}
+
+/* T-Rex Icon */
 .rex {
-  max-width: 150px; /* Adjust size of the dinosaur */
-  flex-shrink: 0; /* Prevents the dinosaur from shrinking */
+  max-width: 150px;
+  flex-shrink: 0;
+  transition: opacity 0.3s, transform 0.3s;
 }
 
-.footer {
-  display: none; /* Removes footer as you mentioned */
+/* Hide T-Rex when the map is visible */
+.map-visible .rex {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.8); /* Slight shrink animation when hidden */
 }
 
+/* Map Container */
 .map-container {
+  position: relative;
+  width: 100%;
+  height: 400px;
   margin-top: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f0f0f0;
 }
 
+/* T-Rex Marker with Colored Glow */
+.trex-marker {
+  position: relative;
+  display: inline-block;
+  width: 40px; /* Marker size */
+  height: 40px;
+  background-color: transparent;
+  border-radius: 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Default shadow */
+}
+
+.trex-marker.eat {
+  background-color: #e57373; /* Subdued pink-red for eat */
+  box-shadow: 0 0 15px #e57373;
+}
+
+.trex-marker.drink {
+  background-color: #9370db; /* Muted violet for drink */
+  box-shadow: 0 0 15px #9370db;
+}
+
+.trex-marker.explore {
+  background-color: #ff7f50; /* Coral orange for explore */
+  box-shadow: 0 0 15px #ff7f50;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
   .content {
-    flex-direction: row; /* Ensure it stays side-by-side */
-    gap: 15px; /* Adjust gap for smaller screens */
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .map-container {
+    height: 300px;
   }
 }
 
 @media (max-width: 480px) {
   .content {
-    flex-direction: row; /* Ensure it stays side-by-side on very small screens */
+    flex-direction: column;
+    align-items: center;
     gap: 10px;
   }
+
+  .map-container {
+    height: 250px;
+  }
 }
+
