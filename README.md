@@ -24,11 +24,11 @@ Decision fatigue is a real problem in today’s fast-paced world. Rex simplifies
 ---
 
 ## **How to Use Rex**
-1. Visit the live URL: [Insert your live site URL here].
+1. Visit the live URL: https://madelinepdx.github.io/rex-app-codecademy
 2. Grant location access to let Rex fetch your geolocation.
 3. Click "Eat," "Drink," or "Explore" to find nearby recs.
-4. View your location and Rex's top recommendation on the map.
-5. Follow the info and enjoy your outing—no decisions needed!
+4. View your geolocation and Rex's top recommendation on the map.
+5. Use the arrow buttons to choose the next best option (or go back!).
 
 ---
 
