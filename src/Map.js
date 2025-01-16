@@ -107,7 +107,8 @@ const Map = ({ currentLocation, topPlaceLocation, clearMarkers, activeButton }) 
         markersRef.current.forEach((marker) => marker.setMap(null));
       };
     }
-  }, [isLoaded, currentLocation, topPlaceLocation, clearMarkers]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoaded, currentLocation, topPlaceLocation, clearMarkers, activeButton]);
 
   const fetchPlaceDetails = (placeId, map, marker, infoWindow) => {
     if (!placeId) {
