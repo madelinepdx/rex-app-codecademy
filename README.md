@@ -1,4 +1,4 @@
-# **Rex: Your Personalized Nearby Recs**
+# **Rex: Your Top Rec**
 
 ## **Overview**
 Rex is designed to **combat decision fatigue** by helping users find the top-rated places closest to them. Whether you want to eat, drink, or explore, Rex makes the decision for you so you can spend less time scrolling and more time enjoying. With a playful T-Rex theme, Rex delivers easy, no-hassle recommendations (or "recs") tailored to your location.
