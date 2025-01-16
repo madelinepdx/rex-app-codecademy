@@ -94,7 +94,7 @@ h1 {
 
 /* Hover Styles for Buttons */
 .buttons button.eat:hover {
-  background-color: #f48fb1; /* Lighter pink for hover */
+  background-color: #f48fb1;
   color: white;
 }
 
@@ -111,17 +111,17 @@ h1 {
 
 /* Active Buttons */
 .buttons button.active.eat {
-  background-color: #f06292; /* Vibrant pink-red for eat */
+  background-color: #f48fb1; /* Vibrant pink-red for eat */
   color: white;
 }
 
 .buttons button.active.drink {
-  background-color: #9370db; /* Muted violet for drink */
+  background-color: #b39ddb; /* Muted violet for drink */
   color: white;
 }
 
 .buttons button.active.explore {
-  background-color: #ff7f50; /* Coral orange for explore */
+  background-color: #ffab91; /* Coral orange for explore */
   color: white;
 }
 

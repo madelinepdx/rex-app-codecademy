@@ -31,18 +31,25 @@ function App() {
       console.warn("Current location is not set yet.");
       return;
     }
-
+  
     if (clearMarkersRef.current) {
       clearMarkersRef.current();
     }
-
+  
     const { lat, lng } = currentLocation;
-    const url = `http://localhost:5001/api/nearbysearch?location=${lat},${lng}&radius=1500&type=${type}`;
-
+  
+    // Define types for 'explore'
+    const exploreTypes = "park|tourist_attraction|point_of_interest";
+  
+    // Update type if it's 'explore'
+    const queryType = type === "explore" ? exploreTypes : type;
+  
+    const url = `http://localhost:5001/api/nearbysearch?location=${lat},${lng}&radius=1500&type=${queryType}`;
+  
     try {
       const response = await fetch(url);
       const data = await response.json();
-
+  
       if (data.results && data.results.length > 0) {
         setPlaces(data.results);
         setCurrentIndex(0);
@@ -53,7 +60,7 @@ function App() {
           lat: firstPlace.geometry.location.lat,
           lng: firstPlace.geometry.location.lng,
           place_id: firstPlace.place_id,
-          opening_hours: firstPlace.opening_hours?.weekday_text || null,
+          opening_hours: firstPlace.opening_hours?.weekday_text || "No opening hours available",
         });
       } else {
         setPlaces([]);
@@ -62,7 +69,7 @@ function App() {
     } catch (error) {
       console.error("Error fetching places:", error);
     }
-  };
+  };  
 
   const handleButtonClick = (type) => {
     setShowMap(true);
