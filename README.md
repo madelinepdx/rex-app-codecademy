@@ -1,19 +1,18 @@
-# **Rex: Your Personalized Nearby Recs**
+# **Rex: Your Top Rec**
 
 ## **Overview**
-Rex is designed to **combat decision fatigue** by helping users find the top-rated places closest to them. Whether you're looking for a place to eat, drink, or explore, Rex makes the decision for you so you can spend less time scrolling and more time enjoying. With a playful T-Rex theme, Rex delivers delightful, no-hassle recommendations (or "recs") tailored to your location.
+Rex is designed to **combat decision fatigue** by helping users find the top-rated places closest to them. Whether you want to eat, drink, or explore, Rex makes the decision for you so you can spend less time scrolling and more time enjoying. With a playful T-Rex theme, Rex delivers easy, no-hassle recommendations (or "recs") tailored to your location.
 
 ---
 
 ## **Features**
-- 🗺 **Interactive Map:** Displays your current location and the top nearby recommendation.
-- 🔍 **Category Selection:** Toggle between "Eat," "Drink," and "Explore" to find the best rec for your mood.
 - 🦖 **Decision-Free Recommendations:** Rex fetches the highest-rated place near you in seconds, removing decision fatigue.
-- 🎨 **Dynamic Markers:** Unique, colorful T-Rex markers for each category.
+- 🗺 **Interactive Map:** Displays your current location and the top nearby recommendation, with the map adjusting accordingly to center your geolocation and selected marker.
+- 🔍 **Category Selection:** Toggle between "Eat," "Drink," and "Explore" to find the best rec for your mood.
 - 🌐 **Responsive Design:** Works seamlessly on all devices (desktop, tablet, and mobile).
+- **Customizable InfoWindows**: Displays detailed information, including opening hours and direct links to Google Maps.
 - 🌟 **Error Handling:** Clear feedback and retry options for network issues or API errors.
-- 🎉 **Delightful Design:** Smooth animations, hover effects, and a cohesive theme enhance user experience.
-
+  
 ---
 
 ## **Why Rex?**
@@ -21,11 +20,6 @@ Decision fatigue is a real problem in today’s fast-paced world. Rex simplifies
 1. Showing you **only the top-rated rec closest to you**.
 2. Removing the hassle of endless scrolling and reviews.
 3. Letting you focus on enjoying your outing instead of stressing over decisions.
-
----
-
-## **Wireframes**
-(Add your app's wireframes or sketches here. Include designs for the home screen, map view, and category selection.)
 
 ---
 
@@ -61,10 +55,48 @@ In the project directory, you can run:
 
 ---
 
-## **Installation**
-To run the app locally:
+## Setup and Installation
 
-1. Clone the repository:
+### Prerequisites
+- Node.js
+- Google Maps API Key
+
+### Steps
+1. Clone this repository:
    ```bash
-   git clone https://github.com/your-username/rex-app.git
+   git clone https://github.com/madelinepdx/rex-app-codecademy.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd rex-app-codecademy
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+4. Create a `.env` file in the root directory and add your Google Maps API key:
+   ```env
+   REACT_APP_GOOGLE_API_KEY=your-google-maps-api-key
+   ```
+5. Start the development server:
+   ```bash
+   npm start
+   ```
+   ## How to Use
+- Click on a button (eat, drink, explore) to see nearby locations.
+- The map automatically adjusts to show your location and the nearest place.
+- Click on a marker to see detailed information about the place.
 
+## Technologies Used
+- React.js
+- Google Maps JavaScript API
+- Node.js (for the backend API)
+- HTML/CSS
+
+## Future Enhancements
+- Add user authentication for personalized recommendations.
+- Allow users to save favorite places.
+- Enhance mobile responsiveness.
+
+## Contributions
+Contributions are welcome! Feel free to fork the repository and submit a pull request.
