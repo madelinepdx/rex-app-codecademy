@@ -100,3 +100,14 @@ In the project directory, you can run:
 
 ## Contributions
 Contributions are welcome! Feel free to fork the repository and submit a pull request.
+
+## Screenshots
+
+### Landing Page
+![Landing Page](./public/images/initial-page-eat.png)
+
+### Map View with Geolocation
+![Map View](./public/images/page2-gelocation-drink.png)
+
+### InfoWindow Example
+![InfoWindow Example](./public/images/page2-infowindow-explore.png)
